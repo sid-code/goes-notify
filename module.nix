@@ -3,7 +3,7 @@
 with lib;
 
 let
-  goesNotify = import ./goes-notify { inherit pkgs; };
+  goesNotify = import ./goes-notify.nix { inherit pkgs; };
   cfg = config.services.goesNotify;
 in {
   options.services.goesNotify = {
