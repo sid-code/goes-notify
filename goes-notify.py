@@ -17,7 +17,7 @@ from subprocess import call
 
 GOES_URL_FORMAT = 'https://ttp.cbp.dhs.gov/schedulerapi/slots?orderBy=soonest&limit=3&locationId={0}&minimum=1'
 
-def notify_send(dates, current_apt, settings, use_gmail=False):
+def notify_send(dates, current_apt):
     call(["bash", "./notify.sh",
           "'" + ', '.join(dates) + "'",
           "'" + current_apt.strftime('%B-%d,%Y') + "'"])
@@ -48,7 +48,7 @@ def main(*args, **kwargs):
             (''.join(dates) + current_apt.strftime('%B %d, %Y @ %I:%M%p')).encode('utf8')
         ).hexdigest()
         fn = "goes-notify_{0}.txt".format(hash)
-        if settings.get('no_spamming') and os.path.exists(fn):
+        if os.path.exists(fn):
             sys.exit(1)
         else:
             for f in glob.glob("goes-notify_*.txt"):
@@ -60,21 +60,10 @@ def main(*args, **kwargs):
         logging.critical("Something went wrong when trying to obtain the openings")
         sys.exit(1)
 
-    msg = 'Found new appointment(s) in location %s on %s (current is on %s)!' % (settings.get("enrollment_location_id"), dates[0], current_apt.strftime('%B %d, %Y @ %I:%M%p'))
-    logging.info(msg + (' Sending email.' if not settings.get('no_email') else ' Not sending email.'))
+    msg = 'Found new appointment(s) in location %s on %s (current is on %s)!' % ((kwargs['location_id']), dates[0], current_apt.strftime('%B %d, %Y @ %I:%M%p'))
 
-    notify_send(dates, current_apt, settings, use_gmail=settings.get('use_gmail'))
+    notify_send(dates, current_apt)
     sys.exit(0)
-
-def _check_settings(config):
-    required_settings = (
-        'current_interview_date_str',
-        'enrollment_location_id'
-    )
-
-    for setting in required_settings:
-        if not config.get(setting):
-            raise ValueError('Missing setting %s in config.json file.' % setting)
 
 if __name__ == '__main__':
 
