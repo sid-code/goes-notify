@@ -18,9 +18,7 @@ from subprocess import call
 GOES_URL_FORMAT = 'https://ttp.cbp.dhs.gov/schedulerapi/slots?orderBy=soonest&limit=3&locationId={0}&minimum=1'
 
 def notify_send(notify_program, dates, current_apt):
-    call([notify_program,
-          "'" + ', '.join(dates) + "'",
-          "'" + current_apt.strftime('%B-%d,%Y') + "'"])
+    call([notify_program, ', '.join(dates), current_apt.strftime('%B-%d,%Y')])
 
 def main(notify_program=None, location_id=None, interview_date=None):
     try:
