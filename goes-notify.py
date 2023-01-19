@@ -17,22 +17,22 @@ from subprocess import call
 
 GOES_URL_FORMAT = 'https://ttp.cbp.dhs.gov/schedulerapi/slots?orderBy=soonest&limit=3&locationId={0}&minimum=1'
 
-def notify_send(dates, current_apt):
-    call(["bash", "./notify.sh",
+def notify_send(notify_program, dates, current_apt):
+    call([notify_program,
           "'" + ', '.join(dates) + "'",
           "'" + current_apt.strftime('%B-%d,%Y') + "'"])
 
-def main(*args, **kwargs):
+def main(notify_program=None, location_id=None, interview_date=None):
     try:
         # obtain the json from the web url
-        data = requests.get(GOES_URL_FORMAT.format(kwargs['location_id'])).json()
+        data = requests.get(GOES_URL_FORMAT.format(location_id)).json()
 
     	# parse the json
         if not data:
             logging.info('No tests available.')
             sys.exit(1)
 
-        current_apt = kwargs['interview_date']
+        current_apt = interview_date
         dates = []
         for o in data:
             if o['active']:
@@ -60,9 +60,9 @@ def main(*args, **kwargs):
         logging.critical("Something went wrong when trying to obtain the openings")
         sys.exit(1)
 
-    msg = 'Found new appointment(s) in location %s on %s (current is on %s)!' % ((kwargs['location_id']), dates[0], current_apt.strftime('%B %d, %Y @ %I:%M%p'))
+    msg = 'Found new appointment(s) in location %s on %s (current is on %s)!' % ((location_id), dates[0], current_apt.strftime('%B %d, %Y @ %I:%M%p'))
 
-    notify_send(dates, current_apt)
+    notify_send(notify_program, dates, current_apt)
     sys.exit(0)
 
 if __name__ == '__main__':
@@ -79,11 +79,14 @@ if __name__ == '__main__':
 
     # Parse Arguments
     parser = argparse.ArgumentParser(description="Command line script to check for goes openings.")
+    parser.add_argument('--notify_program', dest='notify_program', default=None, help="The program to call with the date of an available appointment")
     parser.add_argument('--location_id', dest='location_id', default=None, help='Enrollment center location ID')
     parser.add_argument('--interview_date', dest='interview_date', default=None, help='Date of currently scheduled interview')
     arguments = vars(parser.parse_args())
+    logging.info("Notify program: " + arguments['notify_program'])
     logging.info("Location ID:    " + arguments['location_id'])
     logging.info("Interview date: " + arguments['interview_date'])
 
-    main(location_id=int(arguments['location_id']),
+    main(notify_program=arguments['notify_program'],
+         location_id=int(arguments['location_id']),
          interview_date=datetime.strptime(arguments['interview_date'], '%B %d, %Y'))

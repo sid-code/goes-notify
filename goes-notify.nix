@@ -19,5 +19,5 @@ let
 in
 pkgs.writeShellScriptBin "goes-notify" ''
 set -e
-${my-python}/bin/python ${watcher} "$@"
+${my-python}/bin/python ${watcher} --notify_program=${notifyScript}/bin/notify.sh "$@"
 ''
