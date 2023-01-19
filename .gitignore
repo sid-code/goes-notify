@@ -1,3 +1,4 @@
 *.log
 *.txt
-pushbulletToken
+pushbullet-token
+result

@@ -1,5 +1,5 @@
 { pkgs ? import <nixpkgs> {} }:
-let pushbulletToken = builtins.readFile ./pushbulletToken;
+let pushbulletToken = pkgs.lib.removeSuffix "\n" (builtins.readFile ./pushbullet-token);
 in
 pkgs.writeShellScriptBin "notify.sh" ''
 ${pkgs.curl}/bin/curl --header 'Access-Token: ${pushbulletToken}' \
