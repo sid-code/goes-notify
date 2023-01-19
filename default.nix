@@ -32,7 +32,7 @@ in {
   config = mkIf cfg.enable {
     environment.systemPackages = [ cfg.package ]; # if user should have the command available as well
 
-    systemd.services.fusuma = {
+    systemd.services.goesNotify = {
       description = "goes-notify watcher";
 
       wantedBy = [ "multi-user.target" ];
