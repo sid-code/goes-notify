@@ -23,7 +23,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = [ cfg.package ]; # if user should have the command available as well
+    environment.systemPackages = [ goesNotify ]; # if user should have the command available as well
 
     systemd.services.goes-notify = {
       description = "goes-notify watcher";
