@@ -3,22 +3,22 @@
 with lib;
 
 let
-  goes-notify = import ./goes-notify { inherit pkgs; };
+  goesNotify = import ./goes-notify { inherit pkgs; };
   cfg = config.services.fusuma;
 in {
-  options.services.goes-notify = {
+  options.services.goesNotify = {
     enable = mkEnableOption "Enable goes-notify service";
 
     package = mkOption {
       type = types.package;
-      default = goes-notify;
+      default = goesNotify;
       defaultText = "<goes-notify>";
       description = "Set version of goes-notify package to use.";
     };
 
     enrollmentLocationId = mkOption {
-      type = types.int;
-      default = 5180;
+      type = types.string;
+      default = "5180";
       description = "The Trusted Traveler Program enrollment location";
     };
 
@@ -42,7 +42,9 @@ in {
 
       serviceConfig = {
         DynamicUser = true;
-        ExecStart = "${cfg.package}/bin/goes-notify";
+        ExecStart = ''
+          ${cfg.package}/bin/goes-notify --location_id=${cfg.enrollmentLocationId} --appointment_date=${cfg.appointmentDate}
+        '';
         Restart = "on-failure";
       };
     };
