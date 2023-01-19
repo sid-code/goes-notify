@@ -9,13 +9,6 @@ in {
   options.services.goesNotify = {
     enable = mkEnableOption "Enable goes-notify service";
 
-    package = mkOption {
-      type = types.package;
-      default = goesNotify;
-      defaultText = "<goes-notify>";
-      description = "Set version of goes-notify package to use.";
-    };
-
     enrollmentLocationId = mkOption {
       type = types.string;
       default = "5180";
