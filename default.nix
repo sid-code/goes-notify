@@ -4,7 +4,7 @@ with lib;
 
 let
   goesNotify = import ./goes-notify { inherit pkgs; };
-  cfg = config.services.fusuma;
+  cfg = config.services.goesNotify;
 in {
   options.services.goesNotify = {
     enable = mkEnableOption "Enable goes-notify service";
