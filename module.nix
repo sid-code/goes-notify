@@ -36,7 +36,7 @@ in {
       serviceConfig = {
         DynamicUser = true;
         ExecStart = ''
-          ${cfg.package}/bin/goes-notify --location_id=${cfg.enrollmentLocationId} --appointment_date=${cfg.appointmentDate}
+          ${goesNotify}/bin/goes-notify --location_id=${cfg.enrollmentLocationId} --appointment_date=${cfg.appointmentDate}
         '';
         Restart = "on-failure";
       };
