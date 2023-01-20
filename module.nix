@@ -21,6 +21,12 @@ in
       default = "April 22, 2099";
       description = "The date of your appointment";
     };
+
+    wrapperProgram = mkOption {
+      type = types.str;
+      default = "";
+      description = "Program to wrap goes-notify";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -75,7 +81,7 @@ in
         Group = "goes-notify";
         DynamicUser = true;
         ExecStart = ''
-          ${goesNotify}/bin/goes-notify --location_id=${cfg.enrollmentLocationId} --interview_date="${cfg.appointmentDate}"
+          ${cfg.wrapperProgram} ${goesNotify}/bin/goes-notify --location_id=${cfg.enrollmentLocationId} --interview_date="${cfg.appointmentDate}"
         '';
         Restart = "on-failure";
       };
