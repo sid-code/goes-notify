@@ -5,7 +5,8 @@ with lib;
 let
   goesNotify = import ./goes-notify.nix { inherit pkgs; };
   cfg = config.services.goesNotify;
-in {
+in
+{
   options.services.goesNotify = {
     enable = mkEnableOption "Enable goes-notify service";
 
@@ -25,6 +26,19 @@ in {
   config = mkIf cfg.enable {
     environment.systemPackages = [ goesNotify ]; # if user should have the command available as well
 
+    users.mutableUsers = false;
+    users.users.goes-notify = {
+      isNormalUser = false;
+      home = "/var/goes-notify";
+    };
+
+    security.sudo.extraRules = [
+      {
+        users = [ "goes-notify" ];
+        options = [ "NOPASSWD" ];
+      }
+    ];
+
     systemd.services.goes-notify = {
       description = "goes-notify watcher";
 
@@ -43,5 +57,5 @@ in {
     };
   };
 
-  meta.maintainers = with lib.maintainers; [  ];
+  meta.maintainers = with lib.maintainers; [ ];
 }
