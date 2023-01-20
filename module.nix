@@ -49,6 +49,19 @@ in
       }
     ];
 
+    systemd.services.init-goes-notify-home = {
+      description = "Initialize goes-notify home directory";
+
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = ''
+          mkdir -p /var/goes-notify
+          chown goes-notify /var/goes-notify
+        '';
+      };
+    };
+
     systemd.services.goes-notify = {
       description = "goes-notify watcher";
 
