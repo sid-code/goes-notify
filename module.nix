@@ -11,13 +11,13 @@ in
     enable = mkEnableOption "Enable goes-notify service";
 
     enrollmentLocationId = mkOption {
-      type = types.string;
+      type = types.str;
       default = "5180";
       description = "The Trusted Traveler Program enrollment location";
     };
 
     appointmentDate = mkOption {
-      type = types.string;
+      type = types.str;
       default = "April 22, 2099";
       description = "The date of your appointment";
     };
