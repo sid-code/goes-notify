@@ -59,6 +59,8 @@ in
       restartIfChanged = true; # set to false, if restarting is problematic
 
       serviceConfig = {
+        User = "goes-notify";
+        Group = "goes-notify";
         DynamicUser = true;
         ExecStart = ''
           ${goesNotify}/bin/goes-notify --location_id=${cfg.enrollmentLocationId} --interview_date="${cfg.appointmentDate}"
