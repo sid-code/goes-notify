@@ -62,9 +62,7 @@ in
       serviceConfig = {
         Type = "oneshot";
         ExecStart = ''
-          ${pkgs.coreutils}/bin/mkdir -p /var/goes-notify
-          ${pkgs.coreutils}/bin/chown goes-notify /var/goes-notify
-        '';
+          ${pkgs.coreutils}/bin/mkdir -p /var/goes-notify && ${pkgs.coreutils}/bin/chown goes-notify /var/goes-notify'';
       };
     };
 
