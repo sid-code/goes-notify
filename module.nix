@@ -61,8 +61,10 @@ in
       wantedBy = [ "multi-user.target" ];
       serviceConfig = {
         Type = "oneshot";
-        ExecStart = ''
-          ${pkgs.coreutils}/bin/mkdir -p /var/goes-notify && ${pkgs.coreutils}/bin/chown goes-notify /var/goes-notify'';
+        ExecStart = pkgs.writeShellScript "goes-notify-home-init" ''
+          ${pkgs.coreutils}/bin/mkdir -p /var/goes-notify
+          ${pkgs.coreutils}/bin/chown goes-notify /var/goes-notify
+        '';
       };
     };
 
