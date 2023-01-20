@@ -28,9 +28,12 @@ in
 
     users.mutableUsers = false;
     users.users.goes-notify = {
-      isNormalUser = false;
+      isSystemUser = true;
+      group = "goes-notify";
       home = "/var/goes-notify";
     };
+
+    users.groups.goes-notify = {};
 
     security.sudo.extraRules = [
       {
