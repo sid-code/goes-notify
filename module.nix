@@ -26,7 +26,6 @@ in
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       goesNotify
-      vopono
     ];
 
     users.mutableUsers = false;
@@ -42,10 +41,10 @@ in
       {
         users = [ "goes-notify" ];
         commands = [
-          {
-            command = "${pkgs.vopono}/bin/vopono";
-            options = [ "NOPASSWD" ];
-          }
+          # {
+          #   command = "...";
+          #   options = [ "NOPASSWD" ];
+          # }
         ];
       }
     ];
