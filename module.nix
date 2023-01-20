@@ -80,8 +80,8 @@ in
         User = "goes-notify";
         Group = "goes-notify";
         DynamicUser = true;
-        ExecStart = ''
-          ${cfg.wrapperProgram} ${goesNotify}/bin/goes-notify --location_id=${cfg.enrollmentLocationId} --interview_date="${cfg.appointmentDate}"
+        ExecStart = cfg.wrapperProgram ''
+          ${goesNotify}/bin/goes-notify --location_id=${cfg.enrollmentLocationId} --interview_date="${cfg.appointmentDate}"
         '';
         Restart = "on-failure";
       };
