@@ -24,7 +24,10 @@ in
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = [ goesNotify ]; # if user should have the command available as well
+    environment.systemPackages = with pkgs; [
+      goesNotify
+      vopono
+    ];
 
     users.mutableUsers = false;
     users.users.goes-notify = {
@@ -33,12 +36,17 @@ in
       home = "/var/goes-notify";
     };
 
-    users.groups.goes-notify = {};
+    users.groups.goes-notify = { };
 
     security.sudo.extraRules = [
       {
         users = [ "goes-notify" ];
-        options = [ "NOPASSWD" ];
+        commands = [
+          {
+            command = "${vopono}/bin/vopono";
+            options = [ "NOPASSWD" ];
+          }
+        ];
       }
     ];
 
