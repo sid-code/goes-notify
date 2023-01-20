@@ -43,7 +43,7 @@ in
         users = [ "goes-notify" ];
         commands = [
           {
-            command = "${vopono}/bin/vopono";
+            command = "${pkgs.vopono}/bin/vopono";
             options = [ "NOPASSWD" ];
           }
         ];
