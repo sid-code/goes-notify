@@ -80,9 +80,13 @@ in
         User = "goes-notify";
         Group = "goes-notify";
         DynamicUser = true;
-        ExecStart = cfg.wrapperProgram pkgs.writeShellScript "goes-notify-runner" ''
-          ${goesNotify}/bin/goes-notify --location_id=${cfg.enrollmentLocationId} --interview_date="${cfg.appointmentDate}"
-        '';
+        ExecStart =
+          let runner =
+            pkgs.writeShellScript "goes-notify-runner" ''
+              ${goesNotify}/bin/goes-notify --location_id=${cfg.enrollmentLocationId} --interview_date="${cfg.appointmentDate}"
+            '';
+          in
+          cfg.wrapperProgram "${runner}";
         Restart = "on-failure";
       };
     };
