@@ -23,9 +23,9 @@ in
     };
 
     wrapperProgram = mkOption {
-      type = types.str;
-      default = "";
-      description = "Program to wrap goes-notify";
+      type = types.functionTo types.str;
+      default = prog: prog;
+      description = "Function that takes the goes-notify and wraps it in a new command";
     };
   };
 
