@@ -9,6 +9,7 @@
     {
       packages.x86_64-linux.default = self.packages.x86_64-linux.goes-notify;
       packages.x86_64-linux.goes-notify = import ./goes-notify.nix { inherit pkgs; };
-      nixosModules.x86_64-linux = [ ./module.nix ];
+      nixosModules.goes-notify = import ./module.nix;
+      nixosModule = self.nixosModule.goes-notify;
     };
 }
