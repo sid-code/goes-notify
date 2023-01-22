@@ -43,18 +43,6 @@ in
 
     users.groups.goes-notify = { };
 
-    security.sudo.extraRules = [
-      {
-        users = [ "goes-notify" ];
-        commands = [
-          # {
-          #   command = "...";
-          #   options = [ "NOPASSWD" ];
-          # }
-        ];
-      }
-    ];
-
     systemd.services.init-goes-notify-home = {
       description = "Initialize goes-notify home directory";
 
