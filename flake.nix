@@ -1,9 +1,12 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
+
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs }@inputs:
+  outputs = { self, nixpkgs, home-manager }@inputs:
     let pkgs = import nixpkgs { system = "x86_64-linux"; };
     in
     {

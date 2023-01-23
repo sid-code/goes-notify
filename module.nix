@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, inputs, ... }:
 
 with lib;
 
@@ -7,6 +7,10 @@ let
   cfg = config.services.goesNotify;
 in
 {
+  imports = [
+    "${inputs.home-manager}/nixos"
+  ];
+
   options.services.goesNotify = {
     enable = mkEnableOption "Enable goes-notify service";
 
