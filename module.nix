@@ -53,8 +53,9 @@ in
       home.homeDirectory = "/var/goes-notify";
 
       xdg.configFile."systemd/user/goes-notify.service".source =
-        pkgs.writeTextFile "goes-notify.service"
-          (
+        pkgs.writeTextFile {
+          name = "goes-notify.service";
+          text =
             let runner =
               pkgs.writeShellScript "goes-notify-runner" ''
                 ${goesNotify}/bin/goes-notify --location_id=${cfg.enrollmentLocationId} --interview_date="${cfg.appointmentDate}"
@@ -73,8 +74,8 @@ in
               Group=goes-notify
               Restart=on-failure
               User=goes-notify
-            ''
-          );
+            '';
+        };
     };
   };
 
