@@ -47,41 +47,33 @@ in
     };
 
     users.groups.goes-notify = { };
+    home-manager.users.goes-notify = {
+      home.username = "goes-notify";
+      home.homeDirectory = "/var/goes-notify";
 
-    systemd.services.init-goes-notify-home = {
-      description = "Initialize goes-notify home directory";
+      xdg.configFile."systemd/user/goes-notify.service".source =
+        pkgs.writeTextFile "goes-notify.service"
+          (
+            let runner =
+              pkgs.writeShellScript "goes-notify-runner" ''
+                ${goesNotify}/bin/goes-notify --location_id=${cfg.enrollmentLocationId} --interview_date="${cfg.appointmentDate}"
+              '';
+            in
 
-      wantedBy = [ "multi-user.target" ];
-      serviceConfig = {
-        Type = "oneshot";
-        ExecStart = pkgs.writeShellScript "goes-notify-home-init" ''
-          ${pkgs.coreutils}/bin/mkdir -p /var/goes-notify
-          ${pkgs.coreutils}/bin/chown goes-notify /var/goes-notify
-        '';
-      };
-    };
+            ''
+              [Unit]
+              After=network.target
+              Description=goes-notify watcher
 
-    systemd.services.goes-notify = {
-      description = "goes-notify watcher";
+              [Service]
+              DynamicUser=true
+              ExecStart=${cfg.wrapperProgram "${runner}"}
 
-      wantedBy = [ "multi-user.target" ];
-      after = [ "network.target" ]; # if networking is needed
-
-      restartIfChanged = true; # set to false, if restarting is problematic
-
-      serviceConfig = {
-        User = "goes-notify";
-        Group = "goes-notify";
-        DynamicUser = true;
-        ExecStart =
-          let runner =
-            pkgs.writeShellScript "goes-notify-runner" ''
-              ${goesNotify}/bin/goes-notify --location_id=${cfg.enrollmentLocationId} --interview_date="${cfg.appointmentDate}"
-            '';
-          in
-          cfg.wrapperProgram "${runner}";
-        Restart = "on-failure";
-      };
+              Group=goes-notify
+              Restart=on-failure
+              User=goes-notify
+            ''
+          );
     };
   };
 
