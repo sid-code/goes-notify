@@ -48,6 +48,7 @@ in
 
     users.groups.goes-notify = { };
     home-manager.users.goes-notify = {
+      home.stateVersion = "22.11";
       home.username = "goes-notify";
       home.homeDirectory = "/var/goes-notify";
 
