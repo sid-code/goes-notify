@@ -53,7 +53,7 @@ in
       home.homeDirectory = "/var/goes-notify";
 
       xdg.configFile."systemd/user/goes-notify.service".source =
-        (pkgs.writeTextFile "goes-notify.service"
+        pkgs.writeTextFile "goes-notify.service"
           (
             let runner =
               pkgs.writeShellScript "goes-notify-runner" ''
@@ -74,7 +74,7 @@ in
               Restart=on-failure
               User=goes-notify
             ''
-          ));
+          );
     };
   };
 
