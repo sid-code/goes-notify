@@ -8,7 +8,7 @@ die() {
 }
 
 goes_url() {
-    echo "https://ttp.cbp.dhs.gov/schedulerapi/slots?orderBy=soonest&limit=3&locationId=$1&minimum=1"
+    echo "https://ttp.cbp.dhs.gov/schedulerapi/slots?orderBy=soonest&limit=10&locationId=$1&minimum=1"
 }
 
 
