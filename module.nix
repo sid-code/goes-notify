@@ -1,4 +1,4 @@
-{ inputs }:
+{ home-manager, ... }:
 { pkgs, lib, config, ... }:
 
 with lib;
@@ -9,7 +9,7 @@ let
 in
 {
   imports = [
-    "${inputs.home-manager}/nixos"
+    "${home-manager}/nixos"
   ];
 
   options.services.goesNotify = {

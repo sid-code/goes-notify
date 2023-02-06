@@ -19,7 +19,7 @@
         ${self.packages.x86_64-linux.goes-appts} $1 | ${self.packages.x86_64-linux.goes-dbwrite} $2
       '';
 
-      nixosModules.goes-notify = import ./module.nix { inherit inputs; };
+      nixosModules.goes-notify = import ./module.nix inputs;
       nixosModules.default = self.nixosModules.goes-notify;
     };
 }
