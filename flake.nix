@@ -14,6 +14,7 @@
       packages.x86_64-linux.goes-notify = import ./goes-notify.nix { inherit pkgs; };
       packages.x86_64-linux.goes-appts = import ./goes-appts.nix { inherit pkgs; };
       packages.x86_64-linux.goes-dbwrite = import ./goes-dbwrite.nix { inherit pkgs; };
+      packages.x86_64-linux.goes-dbread = import ./goes-dbread.nix { inherit pkgs; };
 
       packages.x86_64-linux.goes-check = pkgs.writeShellScriptBin ''
         ${self.packages.x86_64-linux.goes-appts} $1 | ${self.packages.x86_64-linux.goes-dbwrite} $2
