@@ -20,4 +20,7 @@ LOCATION_ID="$1"
 
 curl -s "$(goes_url "$LOCATION_ID")" \
     | jq -r .[].startTimestamp \
-    | while read -r d; do date +%s --date="$d"; done
+    | while read -r d
+do echo -n "$LOCATION_ID "
+   date +%s --date="$d"
+done
