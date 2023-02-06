@@ -15,17 +15,7 @@
       packages.x86_64-linux.goes-appts = import ./goes-appts.nix { inherit pkgs; };
       packages.x86_64-linux.goes-dbwrite = import ./goes-dbwrite.nix { inherit pkgs; };
       packages.x86_64-linux.goes-dbread = import ./goes-dbread.nix { inherit pkgs; };
-
-      packages.x86_64-linux.goes-check = pkgs.writeShellApplication {
-        name = "goes-check";
-        text = ''
-          goes-appts "$1" | goes-dbwrite "$2"
-        '';
-        runtimeInputs = [
-          self.packages.x86_64-linux.goes-appts
-          self.packages.x86_64-linux.goes-dbwrite
-        ];
-      };
+      packages.x86_64-linux.goes-check = import ./goes-check.nix { inherit pkgs; };
 
       nixosModules.goes-notify = import ./module.nix inputs;
       nixosModules.default = self.nixosModules.goes-notify;
