@@ -3,7 +3,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager }@inputs:
+  outputs = { self, nixpkgs }@inputs:
     let pkgs = import nixpkgs { system = "x86_64-linux"; };
     in
     {
